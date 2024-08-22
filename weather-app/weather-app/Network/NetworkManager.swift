@@ -11,7 +11,6 @@ final class NetworkManager: NetworkManagerProtocol {
     
     private let baseURL = ""
     
-    
     /// Method to make get request on API
     /// - Parameters:
     ///   - entity: Entity type with model of data that should be returned from API
@@ -21,7 +20,7 @@ final class NetworkManager: NetworkManagerProtocol {
         entity: T.Type,
         path: String
     ) async throws -> T {
-               
+        
         // Create request
         guard let url = makeURL(service: path) else {
             throw NetworkError.invalidURL
@@ -62,9 +61,7 @@ final class NetworkManager: NetworkManagerProtocol {
     /// - Returns: decoded data according to data model
     private func decode<T: Decodable>(data: Data) throws -> T? {
         let decoder = JSONDecoder()
-        
         let decodedData = try decoder.decode(T.self, from: data)
-        
         return decodedData
     }
     
