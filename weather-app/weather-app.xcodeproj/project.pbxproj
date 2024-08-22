@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		493055E72C776D8F00D4AFE3 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493055E62C776D8F00D4AFE3 /* NetworkManager.swift */; };
+		493055E92C776D9800D4AFE3 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493055E82C776D9800D4AFE3 /* NetworkError.swift */; };
+		493055EB2C77EECB00D4AFE3 /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493055EA2C77EECB00D4AFE3 /* NetworkManagerProtocol.swift */; };
 		49DC38E92C776954003A8C4E /* weather_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DC38E82C776954003A8C4E /* weather_appApp.swift */; };
 		49DC38EB2C776954003A8C4E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DC38EA2C776954003A8C4E /* SearchView.swift */; };
 		49DC38ED2C776955003A8C4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49DC38EC2C776955003A8C4E /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		493055E62C776D8F00D4AFE3 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		493055E82C776D9800D4AFE3 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		493055EA2C77EECB00D4AFE3 /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
 		49DC38E52C776954003A8C4E /* weather-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "weather-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49DC38E82C776954003A8C4E /* weather_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weather_appApp.swift; sourceTree = "<group>"; };
 		49DC38EA2C776954003A8C4E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -79,6 +85,16 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		493055E52C776D8200D4AFE3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				493055E62C776D8F00D4AFE3 /* NetworkManager.swift */,
+				493055E82C776D9800D4AFE3 /* NetworkError.swift */,
+				493055EA2C77EECB00D4AFE3 /* NetworkManagerProtocol.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		49DC38DC2C776954003A8C4E = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +118,7 @@
 		49DC38E72C776954003A8C4E /* weather-app */ = {
 			isa = PBXGroup;
 			children = (
+				493055E52C776D8200D4AFE3 /* Network */,
 				49DC38E82C776954003A8C4E /* weather_appApp.swift */,
 				493055E42C776D4900D4AFE3 /* Search */,
 				49DC38EC2C776955003A8C4E /* Assets.xcassets */,
@@ -265,7 +282,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				493055E72C776D8F00D4AFE3 /* NetworkManager.swift in Sources */,
+				493055E92C776D9800D4AFE3 /* NetworkError.swift in Sources */,
 				49DC38EB2C776954003A8C4E /* SearchView.swift in Sources */,
+				493055EB2C77EECB00D4AFE3 /* NetworkManagerProtocol.swift in Sources */,
 				49DC38E92C776954003A8C4E /* weather_appApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
