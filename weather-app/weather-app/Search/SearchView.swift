@@ -10,6 +10,11 @@ import SwiftUI
 struct SearchView: View {
     @State private var searchQuery: String = ""
     @State private var suggestions: [String] = []
+    private let presenter: SearchPresenterInputProtocol
+    
+    init(presenter: SearchPresenterInputProtocol) {
+        self.presenter = presenter
+    }
 
     var body: some View {
         VStack {
@@ -62,7 +67,7 @@ struct SearchView: View {
 
     /// Perform the search when the button is pressed
     private func performSearch() {
-       
+        presenter.performSearch(with: searchQuery)
     }
 
     /// Select a suggestion from the list
@@ -76,7 +81,7 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        SearchConfigurator().createModule()
     }
 }
 
