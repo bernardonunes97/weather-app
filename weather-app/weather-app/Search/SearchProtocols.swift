@@ -14,7 +14,7 @@ protocol SearchPresenterInputProtocol: AnyObject {
 
 // MARK: - Interactor
 protocol SearchInteractorInputProtocol: AnyObject {
-    func performSearch(with query: String)
+    func performSearch(with query: String) async
 }
 
 protocol SearchInteractorOutputProtocol: AnyObject {

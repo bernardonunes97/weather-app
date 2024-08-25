@@ -21,7 +21,9 @@ final class SearchPresenter {
 // MARK: - Input Protocol
 extension SearchPresenter: SearchPresenterInputProtocol {
     func performSearch(with query: String) {
-        interactor.performSearch(with: query)
+        Task {
+            await interactor.performSearch(with: query)
+        }
     }
 }
 

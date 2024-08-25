@@ -23,7 +23,12 @@ final class SearchInteractor {
 
 // MARK: - Input Protocol
 extension SearchInteractor: SearchInteractorInputProtocol {
-    func performSearch(with query: String) {
-        print("===>> \(query)")
+    func performSearch(with query: String) async {
+        do {
+            let searchResponse = try await networkManager.getRequest(entity: SearchEntity.self, path: "")
+            print("==>> searchResponse \(searchResponse)")
+        } catch {
+            print("==>> error \(error)")
+        }
     }
 }
