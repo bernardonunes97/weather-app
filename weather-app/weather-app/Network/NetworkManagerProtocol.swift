@@ -10,6 +10,7 @@ import Foundation
 protocol NetworkManagerProtocol {
     func getRequest<T:Decodable>(
         entity: T.Type,
-        path: String
+        path: String,
+        queryItemsDict: [String: String]
     ) async throws -> T
 }

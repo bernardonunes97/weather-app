@@ -14,6 +14,9 @@ final class SearchInteractor {
     
     // MARK: - Private Properties
     private let networkManager: NetworkManagerProtocol
+    private let servicePath = "geo/1.0/direct"
+    private let limitQueryDict = ["limit": "5"]
+    private let cityQueryKey = "q"
     
     // MARK: - Inits
     init(networkManager: NetworkManagerProtocol) {
@@ -25,7 +28,13 @@ final class SearchInteractor {
 extension SearchInteractor: SearchInteractorInputProtocol {
     func performSearch(with query: String) async {
         do {
-            let searchResponse = try await networkManager.getRequest(entity: SearchEntity.self, path: "")
+            var queryItemsDict = [cityQueryKey: query]
+            queryItemsDict.merge(limitQueryDict) { (current, _) in current }
+            let searchResponse = try await networkManager.getRequest(
+                entity: [CityEntity].self,
+                path: servicePath,
+                queryItemsDict: queryItemsDict
+            )
             print("==>> searchResponse \(searchResponse)")
         } catch {
             print("==>> error \(error)")

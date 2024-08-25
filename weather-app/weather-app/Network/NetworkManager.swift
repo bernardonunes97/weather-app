@@ -9,7 +9,8 @@ import Foundation
 
 final class NetworkManager: NetworkManagerProtocol {
     
-    private let baseURL = ""
+    private let baseURL = "http://api.openweathermap.org/"
+    private let apiKeyQueryItem = URLQueryItem(name: "appid", value: "27ae6f3d31823d0eba121e25256941c0")
     
     /// Method to make get request on API
     /// - Parameters:
@@ -18,11 +19,12 @@ final class NetworkManager: NetworkManagerProtocol {
     /// - Returns: returns the decoded data or throws an error
     func getRequest<T:Decodable>(
         entity: T.Type,
-        path: String
+        path: String,
+        queryItemsDict: [String: String]
     ) async throws -> T {
         
         // Create request
-        guard let url = makeURL(service: path) else {
+        guard let url = makeURL(service: path, queryItemsDict: queryItemsDict) else {
             throw NetworkError.invalidURL
         }
         let request = URLRequest(url: url)
@@ -67,8 +69,17 @@ final class NetworkManager: NetworkManagerProtocol {
     
     /// Method to build URL
     /// - Parameter service: String describing service to be called
+    /// - Parameter queryItemsDict: Query Items to be added to the URL
     /// - Returns: URL with every component
-    private func makeURL(service: String) -> URL? {
-        return URL(string: "\(baseURL)\(service)")
+    private func makeURL(service: String, queryItemsDict: [String: String]) -> URL? {
+        let fullURL = baseURL + service
+        var urlComponents = URLComponents(string: fullURL)
+        var urlQueryItems = queryItemsDict.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        urlQueryItems.append(apiKeyQueryItem)
+        urlComponents?.queryItems = urlQueryItems
+
+        return urlComponents?.url
     }
 }

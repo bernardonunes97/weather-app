@@ -11,6 +11,6 @@ struct CityEntity: Decodable {
     let name: String
     let lat: Double
     let lon: Double
-    let state: String
     let country: String
+    let state: String?
 }
