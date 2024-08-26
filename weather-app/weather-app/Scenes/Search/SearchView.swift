@@ -11,11 +11,11 @@ struct SearchView: View {
     // MARK: - Properties
     @State private var searchQuery: String = ""
     @State private var showWeatherView = false
-    @ObservedObject private var presenter: SearchViewModel
+    @ObservedObject private var viewModel: SearchViewModel
     
     // MARK: - init
-    init(presenter: SearchViewModel) {
-        self.presenter = presenter
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
     }
 
     // MARK: - Body
@@ -35,8 +35,8 @@ struct SearchView: View {
             .padding(.top)
 
             // Suggestions List
-            if !presenter.cities.isEmpty {
-                List(presenter.cities, id: \.self) { suggestion in
+            if !viewModel.cities.isEmpty {
+                List(viewModel.cities, id: \.self) { suggestion in
                     HStack {
                         Text(suggestion.nameToPresent)
                             .onTapGesture {
@@ -58,7 +58,9 @@ struct SearchView: View {
         }
         .padding()
         .popover(isPresented: $showWeatherView) {
-            WeatherConfigurator().createModule()
+            if let selectedCity = viewModel.selectedCity {
+                WeatherConfigurator().createModule(cityModel: selectedCity)
+            }
         }
     }
 
@@ -67,7 +69,7 @@ struct SearchView: View {
     /// - Parameter query: query representing city to be searched
     private func updateSuggestions(for query: String) {
         if query.isEmpty {
-            presenter.clearCities()
+            viewModel.clearCities()
         } else {
             performSearch()
         }
@@ -75,14 +77,15 @@ struct SearchView: View {
 
     /// Perform the search when the button is pressed
     private func performSearch() {
-        presenter.performSearch(with: searchQuery)
+        viewModel.performSearch(with: searchQuery)
     }
 
     /// Select a suggestion from the list
     /// - Parameter suggestion: suggestion that was selected by user
     private func selectSuggestion(_ suggestion: CityModel) {
+        viewModel.selectedCity = suggestion
         showWeatherView.toggle()
-        presenter.clearCities()
+        viewModel.clearCities()
         searchQuery = ""
     }
 }

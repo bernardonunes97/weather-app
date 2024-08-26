@@ -10,10 +10,10 @@ import UIKit
 
 final class WeatherConfigurator {
     
-    func createModule() -> UIKitViewControllerWrapper {
+    func createModule(cityModel: CityModel) -> UIKitViewControllerWrapper {
         let netoworkManager = NetworkManager()
         let interactor = WeatherInteractor(networkManager: netoworkManager)
-        let presenter = WeatherPresenter(interactor: interactor)
+        let presenter = WeatherPresenter(interactor: interactor, cityModel: cityModel)
         interactor.output = presenter
         let viewController = WeatherViewController(presenter: presenter)
         presenter.viewController = viewController

@@ -18,6 +18,7 @@ final class SearchViewModel: ObservableObject {
     private let servicePath = "geo/1.0/direct"
     private let limitQueryDict = ["limit": "5"]
     private let cityQueryKey = "q"
+    var selectedCity: CityModel?
     
     // MARK: - Inits
     init(networkManager: NetworkManagerProtocol) {

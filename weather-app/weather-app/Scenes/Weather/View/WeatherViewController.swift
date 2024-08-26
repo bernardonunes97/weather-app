@@ -12,6 +12,7 @@ final class WeatherViewController: UIViewController {
     
     // MARK: - Viper Properties
     private let presenter: WeatherPresenterInputProtocol
+    private let weatherView = WeatherView()
     
     // MARK: - Inits
     init(presenter: WeatherPresenterInputProtocol) {
@@ -27,17 +28,26 @@ final class WeatherViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+    }
 
-        // Set background color
-        view.backgroundColor = .systemBackground
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+}
 
-        // Initialize the WeatherView
-        let weatherView = WeatherView()
+// MARK: - WeatherPresenterOutputProtocol
+extension WeatherViewController: WeatherPresenterOutputProtocol {
+    
+}
 
-        // Add to the view controller's view
+// MARK: - ViewCode
+extension WeatherViewController: ViewCode {
+    func buildViewHierarchy() {
         view.addSubview(weatherView)
-
-        // Set constraints
+    }
+    
+    func setupConstraints() {
         weatherView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             weatherView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -46,7 +56,11 @@ final class WeatherViewController: UIViewController {
             weatherView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        // Add close button to navigation bar
+    }
+    
+    func setupAdditionalConfiguration() {
+        weatherView.setCityName(name: presenter.cityName)
+        view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Close",
             style: .done,
@@ -54,13 +68,4 @@ final class WeatherViewController: UIViewController {
             action: #selector(closeButtonTapped)
         )
     }
-
-    @objc private func closeButtonTapped() {
-        // Dismiss the view controller
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-extension WeatherViewController: WeatherPresenterOutputProtocol {
-    
 }

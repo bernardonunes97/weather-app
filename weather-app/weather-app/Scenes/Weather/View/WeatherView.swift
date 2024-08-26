@@ -16,7 +16,7 @@ final class WeatherView: UIView {
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.textAlignment = .center
         label.textColor = .label
-        label.text = "City Name"
+        label.numberOfLines = 0
         
         return label
     }()
@@ -86,6 +86,11 @@ final class WeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Methods
+    func setCityName(name: String) {
+        cityLabel.text = name
+    }
+    
     // MARK: - Actions
     @objc private func refreshButtonTapped() {
         // Handle refresh action
@@ -98,6 +103,7 @@ final class WeatherView: UIView {
     }
 }
 
+// MARK: - ViewCode
 extension WeatherView: ViewCode {
     func buildViewHierarchy() {
         [

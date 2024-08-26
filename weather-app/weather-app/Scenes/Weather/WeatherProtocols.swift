@@ -14,7 +14,8 @@ protocol WeatherPresenterOutputProtocol: AnyObject {
 
 // MARK: - Presenter
 protocol WeatherPresenterInputProtocol: AnyObject {
-
+    var cityName: String { get }
+    func fetchWeatherInfo()
 }
 
 // MARK: - Interactor
