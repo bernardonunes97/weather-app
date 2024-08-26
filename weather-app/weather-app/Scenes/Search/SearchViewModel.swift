@@ -12,6 +12,8 @@ final class SearchViewModel: ObservableObject {
     
     // MARK: - Published Properties
     @Published private (set) var cities: [CityModel] = []
+    @Published private (set) var isLoading: Bool = false
+    @Published private (set) var errorDescription: String?
     
     // MARK: - Properties
     private let networkManager: NetworkManagerProtocol
@@ -31,6 +33,7 @@ extension SearchViewModel {
     /// Method to perform get request for a city
     /// - Parameter query: string that should be used to make the search
     func performSearch(with query: String) {
+        isLoading = true
         Task {
             do {
                 var queryItemsDict = [cityQueryKey: query]
@@ -40,11 +43,12 @@ extension SearchViewModel {
                     path: servicePath,
                     queryItemsDict: queryItemsDict
                 )
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
                     self?.setCities(citiesAPI: searchResponse)
                 }
                 
             } catch {
+                isLoading = false
                 print("==>> error \(error)")
             }
 
@@ -59,7 +63,8 @@ extension SearchViewModel {
     /// Method to set the cities and transform its model to a user friendly model
     /// - Parameter citiesAPI: array of cities returned by the API
     private func setCities(citiesAPI: [CityAPIModel]) {
-        self.cities = citiesAPI.map { city in
+        isLoading = false
+        cities = citiesAPI.map { city in
             var nameToPresent = city.name
             if let state = city.state {
                 nameToPresent.append(" - \(state)")

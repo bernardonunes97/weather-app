@@ -54,6 +54,16 @@ struct SearchView: View {
                 .listStyle(PlainListStyle())
             } else {
                 Spacer()
+                if viewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(1.5)
+                        .padding()
+                        .background(Color.black.opacity(0.7))
+                        .cornerRadius(10)
+                        .shadow(radius: 10)
+                    Spacer()
+                }
             }
         }
         .padding()
