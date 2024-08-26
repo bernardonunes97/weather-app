@@ -49,7 +49,7 @@ extension WeatherPresenter: WeatherInteractorOutputProtocol {
         if let icon = weather.weather.first?.icon {
             interactor.loadIcon(for: icon)
         }
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
             self?.viewController?.setWeatherInfo(
                 description: weather.weather.first?.description ?? "",
                 temperature: "\(weather.main.temp)°C"

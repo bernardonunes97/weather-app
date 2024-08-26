@@ -13,6 +13,7 @@ final class WeatherViewController: UIViewController {
     // MARK: - Viper Properties
     private let presenter: WeatherPresenterInputProtocol
     private let weatherView = WeatherView()
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     // MARK: - Inits
     init(presenter: WeatherPresenterInputProtocol) {
@@ -28,6 +29,7 @@ final class WeatherViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        startLoading()
         presenter.fetchWeatherInfo()
         setupView()
     }
@@ -38,6 +40,7 @@ final class WeatherViewController: UIViewController {
     }
     
     @objc private func refreshButtonTapped() {
+        startLoading()
         presenter.fetchWeatherInfo()
     }
 
@@ -45,11 +48,22 @@ final class WeatherViewController: UIViewController {
         // Handle unit toggle action
         print("Unit toggle button tapped")
     }
+    
+    private func startLoading() {
+        weatherView.isHidden = true
+        activityIndicator.startAnimating()
+    }
+    
+    private func stopLoading() {
+        weatherView.isHidden = false
+        activityIndicator.stopAnimating()
+    }
 }
 
 // MARK: - WeatherPresenterOutputProtocol
 extension WeatherViewController: WeatherPresenterOutputProtocol {
     func showError(with text: String) {
+        stopLoading()
         let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in 
             alert.dismiss(animated: true)
@@ -65,6 +79,7 @@ extension WeatherViewController: WeatherPresenterOutputProtocol {
     }
     
     func setWeatherInfo(description: String, temperature: String) {
+        stopLoading()
         weatherView.setWeatherInfo(description: description, temperature: temperature)
     }
 }
@@ -72,18 +87,23 @@ extension WeatherViewController: WeatherPresenterOutputProtocol {
 // MARK: - ViewCode
 extension WeatherViewController: ViewCode {
     func buildViewHierarchy() {
+        view.addSubview(activityIndicator)
         view.addSubview(weatherView)
     }
     
     func setupConstraints() {
         weatherView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             weatherView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             weatherView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             weatherView.topAnchor.constraint(equalTo: view.topAnchor),
-            weatherView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            weatherView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-
+        
     }
     
     func setupAdditionalConfiguration() {
@@ -105,5 +125,7 @@ extension WeatherViewController: ViewCode {
             action: #selector(unitToggleButtonTapped),
             for: .touchUpInside
         )
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = .gray
     }
 }
