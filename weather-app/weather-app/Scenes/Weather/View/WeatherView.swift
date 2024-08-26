@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class WeatherView: UIView {
+final class WeatherView: UIView {
 
     // MARK: - UI Elements
     private let cityLabel: UILabel = {

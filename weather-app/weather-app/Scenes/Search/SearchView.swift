@@ -58,7 +58,7 @@ struct SearchView: View {
         }
         .padding()
         .popover(isPresented: $showWeatherView) {
-            UIKitViewControllerWrapper(viewController: UINavigationController(rootViewController: WeatherViewController()))
+            WeatherConfigurator().createModule()
         }
     }
 

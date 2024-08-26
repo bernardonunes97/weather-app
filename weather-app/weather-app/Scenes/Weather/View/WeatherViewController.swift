@@ -8,8 +8,23 @@
 import Foundation
 import UIKit
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
+    
+    // MARK: - Viper Properties
+    private let presenter: WeatherPresenterInputProtocol
+    
+    // MARK: - Inits
+    init(presenter: WeatherPresenterInputProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        nil
+    }
 
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,3 +61,6 @@ class WeatherViewController: UIViewController {
     }
 }
 
+extension WeatherViewController: WeatherPresenterOutputProtocol {
+    
+}
