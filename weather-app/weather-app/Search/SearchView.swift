@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchView: View {
     // MARK: - Properties
     @State private var searchQuery: String = ""
+    @State private var showWeatherView = false
     @ObservedObject private var presenter: SearchViewModel
     
     // MARK: - init
@@ -56,6 +57,9 @@ struct SearchView: View {
             }
         }
         .padding()
+        .popover(isPresented: $showWeatherView) {
+            UIKitViewControllerWrapper(viewController: UINavigationController(rootViewController: WeatherViewController()))
+        }
     }
 
     // MARK: - Methods
@@ -77,7 +81,9 @@ struct SearchView: View {
     /// Select a suggestion from the list
     /// - Parameter suggestion: suggestion that was selected by user
     private func selectSuggestion(_ suggestion: CityModel) {
-        presenter.clearCities() // Clear suggestions after selection
+        showWeatherView.toggle()
+        presenter.clearCities()
+        searchQuery = ""
     }
 }
 
