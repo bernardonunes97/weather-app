@@ -52,9 +52,10 @@ extension WeatherInteractor: WeatherInteractorInputProtocol {
                 )
                 output?.setWeatherInfo(weather: weather)
             } catch {
-                print("==>> error \(error)")
+                if let error = error as? NetworkError {
+                    output?.showError(with: error.errorMessage)
+                }
             }
-            
         }
     }
 }

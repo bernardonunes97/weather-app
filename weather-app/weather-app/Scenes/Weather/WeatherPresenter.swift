@@ -35,6 +35,10 @@ extension WeatherPresenter: WeatherPresenterInputProtocol {
 
 // MARK: - Output Protocol
 extension WeatherPresenter: WeatherInteractorOutputProtocol {
+    func showError(with text: String) {
+        viewController?.showError(with: text)
+    }
+    
     func setIcon(with data: Data) {
         DispatchQueue.main.async { [weak self] in
             self?.viewController?.setIcon(with: .init(data: data))

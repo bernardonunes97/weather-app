@@ -49,6 +49,17 @@ final class WeatherViewController: UIViewController {
 
 // MARK: - WeatherPresenterOutputProtocol
 extension WeatherViewController: WeatherPresenterOutputProtocol {
+    func showError(with text: String) {
+        let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in 
+            alert.dismiss(animated: true)
+        })
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func setIcon(with image: UIImage?) {
         weatherView.setIcon(with: image)
     }

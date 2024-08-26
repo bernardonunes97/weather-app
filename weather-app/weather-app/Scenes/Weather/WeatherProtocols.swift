@@ -12,6 +12,7 @@ import UIKit
 protocol WeatherPresenterOutputProtocol: AnyObject {
     func setWeatherInfo(description: String, temperature: String)
     func setIcon(with image: UIImage?)
+    func showError(with text: String)
 }
 
 // MARK: - Presenter
@@ -29,4 +30,5 @@ protocol WeatherInteractorInputProtocol: AnyObject {
 protocol WeatherInteractorOutputProtocol: AnyObject {
     func setWeatherInfo(weather: WeatherModel)
     func setIcon(with data: Data)
+    func showError(with text: String)
 }
