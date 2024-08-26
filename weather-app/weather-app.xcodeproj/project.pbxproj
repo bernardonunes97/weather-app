@@ -139,6 +139,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		493056072C7C7A8600D4AFE3 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				493055E42C776D4900D4AFE3 /* Search */,
+				493055FA2C7C72A100D4AFE3 /* Weather */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
 		49DC38DC2C776954003A8C4E = {
 			isa = PBXGroup;
 			children = (
@@ -162,12 +171,11 @@
 		49DC38E72C776954003A8C4E /* weather-app */ = {
 			isa = PBXGroup;
 			children = (
-				493055FB2C7C72A700D4AFE3 /* Utils */,
-				493055FA2C7C72A100D4AFE3 /* Weather */,
 				493055F92C7B4FC900D4AFE3 /* Info.plist */,
 				49DC38E82C776954003A8C4E /* weather_appApp.swift */,
+				493056072C7C7A8600D4AFE3 /* Modules */,
 				493055E52C776D8200D4AFE3 /* Network */,
-				493055E42C776D4900D4AFE3 /* Search */,
+				493055FB2C7C72A700D4AFE3 /* Utils */,
 				49DC38EC2C776955003A8C4E /* Assets.xcassets */,
 				49DC38EE2C776955003A8C4E /* Preview Content */,
 			);
