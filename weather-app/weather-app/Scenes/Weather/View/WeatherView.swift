@@ -91,8 +91,11 @@ final class WeatherView: UIView {
         cityLabel.text = name
     }
     
-    func setWeatherInfo(description: String, temperature: String) {
+    func setWeatherDescription(description: String) {
         weatherDescriptionLabel.text = description
+    }
+    
+    func setTemperature(temperature: String) {
         temperatureLabel.text = temperature
     }
     

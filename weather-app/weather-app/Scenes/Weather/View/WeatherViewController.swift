@@ -45,8 +45,7 @@ final class WeatherViewController: UIViewController {
     }
 
     @objc private func unitToggleButtonTapped() {
-        // Handle unit toggle action
-        print("Unit toggle button tapped")
+        presenter.isShowingCelsius.toggle()
     }
     
     private func startLoading() {
@@ -80,7 +79,12 @@ extension WeatherViewController: WeatherPresenterOutputProtocol {
     
     func setWeatherInfo(description: String, temperature: String) {
         stopLoading()
-        weatherView.setWeatherInfo(description: description, temperature: temperature)
+        weatherView.setWeatherDescription(description: description)
+        weatherView.setTemperature(temperature: temperature)
+    }
+    
+    func setTemperature(temperature: String) {
+        weatherView.setTemperature(temperature: temperature)
     }
 }
 

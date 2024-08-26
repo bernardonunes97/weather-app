@@ -11,6 +11,7 @@ import UIKit
 // MARK: - ViewController
 protocol WeatherPresenterOutputProtocol: AnyObject {
     func setWeatherInfo(description: String, temperature: String)
+    func setTemperature(temperature: String)
     func setIcon(with image: UIImage?)
     func showError(with text: String)
 }
@@ -18,6 +19,7 @@ protocol WeatherPresenterOutputProtocol: AnyObject {
 // MARK: - Presenter
 protocol WeatherPresenterInputProtocol: AnyObject {
     var cityName: String { get }
+    var isShowingCelsius: Bool { get set }
     func fetchWeatherInfo()
 }
 

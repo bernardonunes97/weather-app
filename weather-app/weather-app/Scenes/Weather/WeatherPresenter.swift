@@ -18,11 +18,30 @@ final class WeatherPresenter {
     var cityName: String {
         cityModel.nameToPresent
     }
+    private var temperature: Double = 0
+    var convertedTemperature: String {
+        if isShowingCelsius {
+            return "\(temperature)°C"
+        } else {
+            let convertedTemp = celsiusToFahrenheit(celsius: temperature)
+            return "\(convertedTemp)°F"
+        }
+    }
+    var isShowingCelsius = true {
+        didSet {
+            viewController?.setTemperature(temperature: convertedTemperature)
+        }
+    }
     
     // MARK: - Inits
     init(interactor: WeatherInteractorInputProtocol, cityModel: CityModel) {
         self.interactor = interactor
         self.cityModel = cityModel
+    }
+    
+    // MARK: - Private Method
+    private func celsiusToFahrenheit(celsius: Double) -> Double {
+        return (celsius * 9 / 5) + 32
     }
 }
 
@@ -46,13 +65,17 @@ extension WeatherPresenter: WeatherInteractorOutputProtocol {
     }
     
     func setWeatherInfo(weather: WeatherModel) {
+        temperature = weather.main.temp
         if let icon = weather.weather.first?.icon {
             interactor.loadIcon(for: icon)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.viewController?.setWeatherInfo(
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
+            self.viewController?.setWeatherInfo(
                 description: weather.weather.first?.description ?? "",
-                temperature: "\(weather.main.temp)°C"
+                temperature: self.convertedTemperature
             )
         }
     }
