@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct SearchView: View {
+    // MARK: - Properties
     @State private var searchQuery: String = ""
-    @State private var suggestions: [String] = []
-    private let presenter: SearchPresenterInputProtocol
+    @ObservedObject private var presenter: SearchViewModel
     
-    init(presenter: SearchPresenterInputProtocol) {
+    // MARK: - init
+    init(presenter: SearchViewModel) {
         self.presenter = presenter
     }
 
+    // MARK: - Body
     var body: some View {
         VStack {
             // Search Bar
@@ -28,28 +30,25 @@ struct SearchView: View {
                     .onChange(of: searchQuery, perform: { query in
                         updateSuggestions(for: query)
                     })
-                
-                // Search Button
-                Button(action: {
-                    performSearch()
-                }) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white)
-                        .padding(8)
-                        .background(.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.trailing)
             }
             .padding(.top)
 
             // Suggestions List
-            if !suggestions.isEmpty {
-                List(suggestions, id: \.self) { suggestion in
-                    Text(suggestion)
-                        .onTapGesture {
-                            selectSuggestion(suggestion)
-                        }
+            if !presenter.cities.isEmpty {
+                List(presenter.cities, id: \.self) { suggestion in
+                    HStack {
+                        Text(suggestion.nameToPresent)
+                            .onTapGesture {
+                                selectSuggestion(suggestion)
+                            }
+                        Spacer()
+                        Image(systemName: "chevron.forward")
+                            .foregroundColor(.white)
+                            .padding(8)
+                            .background(.blue)
+                            .cornerRadius(10)
+                    }
+                    
                 }
                 .listStyle(PlainListStyle())
             } else {
@@ -59,10 +58,15 @@ struct SearchView: View {
         .padding()
     }
 
+    // MARK: - Methods
     /// Update suggestions based on the current query
     /// - Parameter query: query representing city to be searched
     private func updateSuggestions(for query: String) {
-        
+        if query.isEmpty {
+            presenter.clearCities()
+        } else {
+            performSearch()
+        }
     }
 
     /// Perform the search when the button is pressed
@@ -72,10 +76,8 @@ struct SearchView: View {
 
     /// Select a suggestion from the list
     /// - Parameter suggestion: suggestion that was selected by user
-    private func selectSuggestion(_ suggestion: String) {
-        searchQuery = suggestion
-        suggestions.removeAll() // Clear suggestions after selection
-        performSearch()
+    private func selectSuggestion(_ suggestion: CityModel) {
+        presenter.clearCities() // Clear suggestions after selection
     }
 }
 

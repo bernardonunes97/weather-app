@@ -12,9 +12,7 @@ final class SearchConfigurator {
     
     func createModule() -> some View {
         let netoworkManager = NetworkManager()
-        let interactor = SearchInteractor(networkManager: netoworkManager)
-        let presenter = SearchPresenter(interactor: interactor)
-        interactor.output = presenter
+        let presenter = SearchViewModel(networkManager: netoworkManager)
         let view = SearchView(presenter: presenter)
         
         return view
