@@ -29,12 +29,18 @@ final class WeatherPresenter {
 // MARK: - Input Protocol
 extension WeatherPresenter: WeatherPresenterInputProtocol {
     func fetchWeatherInfo() {
-        
+        interactor.fetchWeatherInfo(for: cityModel)
     }
 }
 
 // MARK: - Output Protocol
 extension WeatherPresenter: WeatherInteractorOutputProtocol {
-    
-
+    func setWeatherInfo(weather: WeatherModel) {
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.setWeatherInfo(
+                description: weather.weather.first?.description ?? "",
+                temperature: "\(weather.main.temp)°C"
+            )
+        }
+    }
 }

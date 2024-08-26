@@ -28,17 +28,30 @@ final class WeatherViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.fetchWeatherInfo()
         setupView()
     }
 
+    // MARK: - Actions
     @objc private func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func refreshButtonTapped() {
+        presenter.fetchWeatherInfo()
+    }
+
+    @objc private func unitToggleButtonTapped() {
+        // Handle unit toggle action
+        print("Unit toggle button tapped")
     }
 }
 
 // MARK: - WeatherPresenterOutputProtocol
 extension WeatherViewController: WeatherPresenterOutputProtocol {
-    
+    func setWeatherInfo(description: String, temperature: String) {
+        weatherView.setWeatherInfo(description: description, temperature: temperature)
+    }
 }
 
 // MARK: - ViewCode
@@ -66,6 +79,16 @@ extension WeatherViewController: ViewCode {
             style: .done,
             target: self,
             action: #selector(closeButtonTapped)
+        )
+        weatherView.refreshButton.addTarget(
+            self,
+            action: #selector(refreshButtonTapped),
+            for: .touchUpInside
+        )
+        weatherView.unitToggleButton.addTarget(
+            self,
+            action: #selector(unitToggleButtonTapped),
+            for: .touchUpInside
         )
     }
 }

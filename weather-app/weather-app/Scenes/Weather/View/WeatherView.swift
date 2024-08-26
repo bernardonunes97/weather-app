@@ -26,7 +26,6 @@ final class WeatherView: UIView {
         label.font = UIFont.systemFont(ofSize: 60, weight: .bold)
         label.textAlignment = .center
         label.textColor = .label
-        label.text = "22°C"
         
         return label
     }()
@@ -36,7 +35,6 @@ final class WeatherView: UIView {
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.textAlignment = .center
         label.textColor = .secondaryLabel
-        label.text = "Sunny"
         
         return label
     }()
@@ -50,7 +48,7 @@ final class WeatherView: UIView {
         return imageView
     }()
 
-    private let refreshButton: UIButton = {
+    let refreshButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Refresh", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -58,7 +56,7 @@ final class WeatherView: UIView {
         return button
     }()
 
-    private let unitToggleButton: UIButton = {
+    let unitToggleButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("°C / °F", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -91,15 +89,9 @@ final class WeatherView: UIView {
         cityLabel.text = name
     }
     
-    // MARK: - Actions
-    @objc private func refreshButtonTapped() {
-        // Handle refresh action
-        print("Refresh button tapped")
-    }
-
-    @objc private func unitToggleButtonTapped() {
-        // Handle unit toggle action
-        print("Unit toggle button tapped")
+    func setWeatherInfo(description: String, temperature: String) {
+        weatherDescriptionLabel.text = description
+        temperatureLabel.text = temperature
     }
 }
 
@@ -126,10 +118,5 @@ extension WeatherView: ViewCode {
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
         ])
-    }
-    
-    func setupAdditionalConfiguration() {
-        refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
-        unitToggleButton.addTarget(self, action: #selector(unitToggleButtonTapped), for: .touchUpInside)
     }
 }
