@@ -72,6 +72,15 @@ struct SearchView: View {
                 WeatherConfigurator().createModule(cityModel: selectedCity)
             }
         }
+        .alert(isPresented: $viewModel.showAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(viewModel.errorDescription),
+                dismissButton: .default(Text("Try again"), action: {
+                    performSearch()
+                })
+            )
+        }
     }
 
     // MARK: - Methods

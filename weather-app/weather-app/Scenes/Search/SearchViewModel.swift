@@ -13,7 +13,8 @@ final class SearchViewModel: ObservableObject {
     // MARK: - Published Properties
     @Published private (set) var cities: [CityModel] = []
     @Published private (set) var isLoading: Bool = false
-    @Published private (set) var errorDescription: String?
+    @Published var showAlert: Bool = false
+    @Published private (set) var errorDescription: String = ""
     
     // MARK: - Properties
     private let networkManager: NetworkManagerProtocol
@@ -49,7 +50,10 @@ extension SearchViewModel {
                 
             } catch {
                 isLoading = false
-                print("==>> error \(error)")
+                if let error = error as? NetworkError {
+                    errorDescription = error.errorMessage
+                }
+                showAlert = true
             }
 
         }

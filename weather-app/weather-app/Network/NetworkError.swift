@@ -14,4 +14,13 @@ enum NetworkError: Error {
     case APIError
     case decodeFailure
     case emptyData
+    
+    var errorMessage: String {
+        switch self {
+        case .deviceOffline:
+            return "Your device does not have internet connection."
+        default:
+            return "An unexpected error occured. Please try again later."
+        }
+    }
 }
