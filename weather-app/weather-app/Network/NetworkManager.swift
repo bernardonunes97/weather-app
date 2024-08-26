@@ -63,6 +63,9 @@ final class NetworkManager: NetworkManagerProtocol {
         return decodedData
     }
     
+    /// Method to retrieve the image icon with its code
+    /// - Parameter iconCode: Icon Code
+    /// - Returns: returns data of the icon
     func getIconRequest(iconCode: String) async throws -> Data {
         let path = iconServicePath + iconCode + imageScale
         
