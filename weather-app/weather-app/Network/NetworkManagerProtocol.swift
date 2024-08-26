@@ -13,4 +13,8 @@ protocol NetworkManagerProtocol {
         path: String,
         queryItemsDict: [String: String]
     ) async throws -> T
+    
+    func getIconRequest(
+        iconCode: String
+    ) async throws -> Data
 }

@@ -14,7 +14,7 @@ final class WeatherInteractor {
     
     // MARK: - Private Properties
     private let networkManager: NetworkManagerProtocol
-    private let servicePath = "data/2.5/weather"
+    private let weatherServicePath = "data/2.5/weather"
     private let unitsDict = ["units": "metric"]
     
     // MARK: - Inits
@@ -25,11 +25,20 @@ final class WeatherInteractor {
 
 // MARK: - Input Protocol
 extension WeatherInteractor: WeatherInteractorInputProtocol {
-    func fetchWeatherInfo(for city: CityModel) {
-        Task { [weak self] in
-            guard let self else {
-                return
+    func loadIcon(for code: String) {
+        Task {
+            do  {
+                let icon = try await networkManager.getIconRequest(iconCode: code)
+                output?.setIcon(with: icon)
+            } catch {
+                print("==>> error \(error)")
             }
+            
+        }
+    }
+    
+    func fetchWeatherInfo(for city: CityModel) {
+        Task {
             var queryItems = [
                 "lat": "\(city.lat)",
                 "lon": "\(city.lon)",
@@ -38,10 +47,10 @@ extension WeatherInteractor: WeatherInteractorInputProtocol {
             do  {
                 let weather = try await networkManager.getRequest(
                     entity: WeatherModel.self,
-                    path: self.servicePath,
+                    path: weatherServicePath,
                     queryItemsDict: queryItems
                 )
-                self.output?.setWeatherInfo(weather: weather)
+                output?.setWeatherInfo(weather: weather)
             } catch {
                 print("==>> error \(error)")
             }

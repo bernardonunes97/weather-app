@@ -9,9 +9,14 @@ import Foundation
 
 final class NetworkManager: NetworkManagerProtocol {
     
+    // MARK: - Private Properties
     private let baseURL = "http://api.openweathermap.org/"
+    private let baseURLIcon = "https://openweathermap.org/"
     private let apiKeyQueryItem = URLQueryItem(name: "appid", value: "27ae6f3d31823d0eba121e25256941c0")
+    private let iconServicePath = "img/wn/"
+    private let imageScale = "@2x.png"
     
+    // MARK: - Methods
     /// Method to make get request on API
     /// - Parameters:
     ///   - entity: Entity type with model of data that should be returned from API
@@ -56,6 +61,36 @@ final class NetworkManager: NetworkManagerProtocol {
         }
         
         return decodedData
+    }
+    
+    func getIconRequest(iconCode: String) async throws -> Data {
+        let path = iconServicePath + iconCode + imageScale
+        
+        // Create request
+        guard let url = URL(string: baseURLIcon + path) else {
+            throw NetworkError.invalidURL
+        }
+        let request = URLRequest(url: url)
+        
+        // Perform the request
+        let (data, response): (Data, URLResponse)
+        do {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } catch {
+            var networkError: NetworkError = .unknownError
+            if error.localizedDescription.uppercased().contains("OFFLINE") {
+                networkError = .deviceOffline
+            }
+            throw networkError
+        }
+        guard
+            let response = response as? HTTPURLResponse,
+            (200...299).contains(response.statusCode)
+        else {
+            throw NetworkError.APIError
+        }
+        
+        return data
     }
     
     /// Method to decode JSON data from URL request

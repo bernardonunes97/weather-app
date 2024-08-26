@@ -49,6 +49,10 @@ final class WeatherViewController: UIViewController {
 
 // MARK: - WeatherPresenterOutputProtocol
 extension WeatherViewController: WeatherPresenterOutputProtocol {
+    func setIcon(with image: UIImage?) {
+        weatherView.setIcon(with: image)
+    }
+    
     func setWeatherInfo(description: String, temperature: String) {
         weatherView.setWeatherInfo(description: description, temperature: temperature)
     }

@@ -42,8 +42,7 @@ final class WeatherView: UIView {
     private let weatherIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "sun.max.fill")
-        imageView.tintColor = .systemYellow
+        imageView.tintColor = .systemBlue
         
         return imageView
     }()
@@ -74,6 +73,9 @@ final class WeatherView: UIView {
         return stackView
     }()
 
+    // MARK: - Properties
+    private let defaultIcon = UIImage(systemName: "photo")
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -92,6 +94,10 @@ final class WeatherView: UIView {
     func setWeatherInfo(description: String, temperature: String) {
         weatherDescriptionLabel.text = description
         temperatureLabel.text = temperature
+    }
+    
+    func setIcon(with image: UIImage?) {
+        weatherIconImageView.image = image ?? defaultIcon
     }
 }
 
@@ -118,5 +124,9 @@ extension WeatherView: ViewCode {
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
         ])
+    }
+    
+    func setupAdditionalConfiguration() {
+        weatherIconImageView.image = defaultIcon
     }
 }

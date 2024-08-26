@@ -35,7 +35,16 @@ extension WeatherPresenter: WeatherPresenterInputProtocol {
 
 // MARK: - Output Protocol
 extension WeatherPresenter: WeatherInteractorOutputProtocol {
+    func setIcon(with data: Data) {
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.setIcon(with: .init(data: data))
+        }
+    }
+    
     func setWeatherInfo(weather: WeatherModel) {
+        if let icon = weather.weather.first?.icon {
+            interactor.loadIcon(for: icon)
+        }
         DispatchQueue.main.async { [weak self] in
             self?.viewController?.setWeatherInfo(
                 description: weather.weather.first?.description ?? "",
