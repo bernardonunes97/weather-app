@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct TemperatureModel: Decodable {
+struct TemperatureModel: Decodable, Equatable {
     let temp: Double
 }

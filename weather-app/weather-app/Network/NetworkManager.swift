@@ -93,15 +93,6 @@ final class NetworkManager: NetworkManagerProtocol {
         return data
     }
     
-    /// Method to decode JSON data from URL request
-    /// - Parameter data: data to be decoded
-    /// - Returns: decoded data according to data model
-    private func decode<T: Decodable>(data: Data) throws -> T? {
-        let decoder = JSONDecoder()
-        let decodedData = try decoder.decode(T.self, from: data)
-        return decodedData
-    }
-    
     /// Method to build URL
     /// - Parameter service: String describing service to be called
     /// - Parameter queryItemsDict: Query Items to be added to the URL
